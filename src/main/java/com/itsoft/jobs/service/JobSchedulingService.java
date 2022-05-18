@@ -46,7 +46,7 @@ public class JobSchedulingService {
             case P12H:
                 taskScheduler.scheduleWithFixedDelay(task, Duration.of(scheduleType.getTimeUnits(), ChronoUnit.HOURS));
                 break;
-            case P2S:
+            case P2S:   //out of requirements, but very good for testing
                 taskScheduler.scheduleWithFixedDelay(task, Duration.of(scheduleType.getTimeUnits(), ChronoUnit.SECONDS));
                 break;
         }
