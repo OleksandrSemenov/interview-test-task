@@ -9,7 +9,6 @@ import lombok.extern.log4j.Log4j2;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.event.EventListener;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
 import org.springframework.stereotype.Service;
 
@@ -28,7 +27,7 @@ public class JobSchedulingService {
     @EventListener(ApplicationReadyEvent.class)
     public void initJobs(){
         log.info("Scheduling jobs from store...");
-        jobService.getJobs().forEach(this::scheduleJob);
+        jobService.getPendingJobs().forEach(this::scheduleJob);
     }
 
     public void scheduleJob(Job job){
@@ -45,7 +44,10 @@ public class JobSchedulingService {
             case P2H:
             case P6H:
             case P12H:
-                taskScheduler.scheduleWithFixedDelay(task, Duration.of(scheduleType.getHours(), ChronoUnit.HOURS));
+                taskScheduler.scheduleWithFixedDelay(task, Duration.of(scheduleType.getTimeUnits(), ChronoUnit.HOURS));
+                break;
+            case P2S:
+                taskScheduler.scheduleWithFixedDelay(task, Duration.of(scheduleType.getTimeUnits(), ChronoUnit.SECONDS));
                 break;
         }
     }

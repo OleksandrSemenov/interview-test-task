@@ -12,7 +12,7 @@ public class Job {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="id")      //for sake of explicitness!
-    private long id;
+    private Long id;
 
     @Column(name="job_type")
     private String jobType;
@@ -24,6 +24,9 @@ public class Job {
     @Enumerated(EnumType.STRING)
     @Column(name="schedule_type")
     private ScheduleType scheduleType;
+
+    @Column(name="executions")      //for sake of explicitness!
+    private int executions;
 
     @Column(name="payload")
     private String payload;         //some payload for task

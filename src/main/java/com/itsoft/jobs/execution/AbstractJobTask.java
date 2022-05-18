@@ -21,15 +21,16 @@ public abstract class AbstractJobTask implements Runnable {
     @Override
     public void run() {
         job.setJobStatus(JobStatus.PENDING);
+        job.setExecutions(job.getExecutions() + 1);
         log.info("Executing job of type={}, info={}", job.getJobType(), job);
-        jobService.updateJob(job);
+        jobService.saveJob(job);
         try {
             execute();
             job.setJobStatus(JobStatus.SUCCESS);
         } catch (Exception exc){
             job.setJobStatus(JobStatus.FAILED);
         }
-        jobService.updateJob(job);
+        jobService.saveJob(job);
     }
 
     public abstract void execute();

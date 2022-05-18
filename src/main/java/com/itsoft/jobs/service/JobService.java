@@ -15,14 +15,18 @@ public class JobService {
     private final JobRepository jobRepository;
 
     public List<Job> getJobs(){
+        return jobRepository.findAll();
+    }
+
+    public List<Job> getPendingJobs(){
         return jobRepository.findAllByJobStatus(JobStatus.PENDING);
     }
 
-    public Job submitJob(Job job){
-        return updateJob(job);
+    public Job getJob(Long id){
+        return jobRepository.getById(id);
     }
 
-    public Job updateJob(Job job){
+    public Job saveJob(Job job){
         return jobRepository.save(job);
     }
 
